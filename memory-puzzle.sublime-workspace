@@ -1,0 +1,524 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"board",
+				"BOARDHEIGHT"
+			],
+			[
+				"Board",
+				"BOARDHEIGHT"
+			],
+			[
+				"nu",
+				"numIconsUsed"
+			],
+			[
+				"B",
+				"BOARDHEIGHT"
+			],
+			[
+				"BOAR",
+				"BOARDWIDTH"
+			],
+			[
+				"ALL",
+				"ALLSHAPES"
+			],
+			[
+				"FPS",
+				"fpsClock"
+			],
+			[
+				"el",
+				"elif"
+			],
+			[
+				"reve",
+				"revealedBoxes"
+			],
+			[
+				"f",
+				"firstSelection"
+			],
+			[
+				"mouse",
+				"mousey"
+			],
+			[
+				"mou",
+				"mousex"
+			],
+			[
+				"re",
+				"revealedBoxes"
+			],
+			[
+				"main",
+				"mainBoard"
+			],
+			[
+				"win",
+				"WINDOWHEIGHT"
+			],
+			[
+				"WIN",
+				"WINDOWHEIGHT"
+			],
+			[
+				"gap",
+				"GAPSIZE"
+			],
+			[
+				"box",
+				"BOXSIZE"
+			],
+			[
+				"boar",
+				"BOARDWIDTH"
+			],
+			[
+				"wi",
+				"WINDOWWIDTH"
+			],
+			[
+				"BOARD",
+				"BOARDWIDTH"
+			],
+			[
+				"dis",
+				"display"
+			],
+			[
+				"te",
+				"textRectObj"
+			],
+			[
+				"w",
+				"WHITE"
+			],
+			[
+				"cat",
+				"catx"
+			],
+			[
+				"b",
+				"BLACK"
+			],
+			[
+				"all",
+				"align-self"
+			],
+			[
+				"bor",
+				"border"
+			],
+			[
+				"padd",
+				"padding-top"
+			],
+			[
+				"background-c",
+				"background-color"
+			],
+			[
+				"clas",
+				"classe-a"
+			],
+			[
+				"font-s",
+				"font-size"
+			],
+			[
+				"op",
+				"option\tTag"
+			],
+			[
+				"in",
+				"input\tTag"
+			],
+			[
+				"l",
+				"lang\tAttr"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"font-",
+				"font-size"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"ba",
+				"background"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"paddi",
+				"padding-left"
+			],
+			[
+				"mar",
+				"margin-left"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"tex",
+				"texto-padrão"
+			],
+			[
+				"fot",
+				"font-style"
+			],
+			[
+				"font",
+				"font-style"
+			],
+			[
+				"border-s",
+				"border-style"
+			],
+			[
+				"bord",
+				"border-color"
+			],
+			[
+				"st",
+				"style\tTag"
+			],
+			[
+				"a",
+				"align-items"
+			],
+			[
+				"met",
+				"meta\tTag"
+			],
+			[
+				"me",
+				"meta\tTag"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 430,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "import random, pygame, sys\nfrom pygame import *\nfrom itertools import product\n\nFPS = 30 # frames per second, the general speed of the program\nWINDOWWIDTH = 640 # size of window's width in pixels\nWINDOWHEIGHT = 480 # size of window's height in pixels\nREVEALSPEED = 8 # speed boxes' sliding reveals and covers\nBOXSIZE = 40 # size of box height & width in pixels\nGAPSIZE = 10 # size of gap between boxes in pixels\nBOARDWIDTH = 10 # number of columns of icons\nBOARDHEIGHT = 7 # number of rowns of icons\nassert (BOARDWIDTH * BOARDHEIGHT) % 2 == 0, 'Board needs to have an even number of boxes for pairs of matches.'\nXMARGIN = int((WINDOWWIDTH - (BOARDWIDTH * (BOXSIZE + GAPSIZE))) / 2)\nYMARGIN = int((WINDOWHEIGHT - (BOARDHEIGHT * (BOXSIZE + GAPSIZE))) / 2)\n\n#\nGRAY     = (100, 100, 100)\nNAVYBLUE = ( 60,  60, 100)\nWHITE    = (255, 255, 255)\nRED      = (255,   0,   0)\nGREEN    = (  0, 255,   0)\nBLUE     = (  0,   0, 255)\nYELLOW   = (255, 255,   0)\nORANGE   = (255, 128,   0)\nPURPLE   = (255,   0, 255)\nCYAN     = (  0, 255, 255)\n\nBGCOLOR = NAVYBLUE\nLIGHTBGCOLOR = GRAY\nBOXCOLOR = WHITE\nHIGHLIGHTCOLOR = BLUE\n\nDONUT, SQUARE, DIAMOND, LINES, OVAL = 1, 2, 3, 4, 5\n\nALLCOLORS = (RED, GREEN, BLUE, YELLOW, ORANGE, PURPLE, CYAN)\nALLSHAPES = (DONUT, SQUARE, DIAMOND, LINES, OVAL)\n\ndef main():\n\tglobal fpsClock, DISPLAYSURF\n\tpygame.init()\n\tfpsClock = pygame.time.Clock()\n\tDISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))\n\n\tmousex, mousey = 0, 0\n\n\tpygame.display.set_caption('Memory Game')\n\n\tmainBoard = getRandomizedBoard()\n\trevealedBoxes = generateRevealedBoxesData(False)\n\n\tfirstSelection = None\n\n\tDISPLAYSURF.fill(BGCOLOR)\n\tstartGameAnimation(mainBoard)\n\n\twhile True:\n\t\tmouseClicked = False\n\n\t\tDISPLAYSURF.fill(BGCOLOR)\n\t\tdrawBoard(mainBoard, revealedBoxes)\n\n\t\tfor event in pygame.event.get():\n\t\t\tif event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):\n\t\t\t\tpygame.quit()\n\t\t\t\tsys.exit()\n\t\t\telif event.type == MOUSEMOTION:\n\t\t\t\tmousex, mousey = event.pos\n\t\t\telif event.type == MOUSEBUTTONUP:\n\t\t\t\tmousex, mousey = event.pos\n\t\t\t\tmouseClicked = True\n\n\t\t\tboxx, boxy = getBoxAtPixel(mousex, mousey)\n\t\t\tif boxx != None and boxy != None:\n\t\t\t\tif not revealedBoxes[boxx][boxy]:\n\t\t\t\t\tdrawHighlightBox(boxx, boxy)\n\t\t\t\tif not revealedBoxes[boxx][boxy]:\n\t\t\t\t\trevealBoxesAnimation(mainboard, [(boxx, boxy)])\n\t\t\t\t\trevealedBoxes[boxx][boxy] = True\n\t\t\t\t\tif firstSelection == None:\n\t\t\t\t\t\tfirstSelection = (boxx, boxy)\n\t\t\t\t\telse:\n\t\t\t\t\t\ticon1shape, icon1color = getShapeAndColor(mainBoard, firstSelection[0], firstSelection[1])\n\t\t\t\t\t\ticon2shape, icon2color = getShapeAndColor(mainBoard, boxx, boxy)\n\t\t\t\t\t\tif icon1shape != icon2shape or icon1color != icon2color:\n\t\t\t\t\t\t\tpygame.time.wait(1000)\n\t\t\t\t\t\t\tcoverBoxesAnimation(mainBoard, [(firstSelection[0], firstSelection[1]), (boxx, boxy)])\n\t\t\t\t\t\t\trevealedBoxes[fisrtSelection[0], firstSelection[1]] = False\n\t\t\t\t\t\t\trevealedBoxes[boxx][boxy] = False\n\t\t\t\t\t\telif hasWon(revealedBoxes):\n\t\t\t\t\t\t\tgameWonAnimation(mainBoard)\n\t\t\t\t\t\t\tpygame.time.wait(2000)\n\n\t\t\t\t\t\t\tmainBoard = getRandomizedBoard()\n\t\t\t\t\t\t\trevealedBoxes = generateRevealedBoxesData(False)\n\n\t\t\t\t\t\t\tdrawBoard(mainBoard, revealedBoxes)\n\t\t\t\t\t\t\tpygame.display.update()\n\t\t\t\t\t\t\tpygame.time.wait(1000)\n\n\t\t\t\t\t\t\tstartGameAnimation(mainBoard)\n\t\t\t\t\t\tfirstSelection = None\n\t\t\t\t\tpygame.display.update()\n\t\t\t\t\tfpsClock.tick(FPS)\n\ndef generateRevealedBoxesData(val):\n\treturn [[val] * BOARDHEIGHT for i in range(BOARDWIDTH)]\n\ndef getRandomizedBoard():\n\ticons = product(ALLSHAPES, ALLCOLORS)\n\tnumIconsUsed = int(BOARDWIDTH * BOARDHEIGHT / 2)\n\ticons = random.sample(icons, numIconsUsed) * 2\n\t\n\n\n\nif __name__ == '__main__':\n\tmain()\n",
+			"file": "memory-puzzle.py",
+			"file_size": 3650,
+			"file_write_time": 132032912746826342,
+			"settings":
+			{
+				"buffer_size": 3617,
+				"line_ending": "Unix",
+				"name": "import"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 124.0,
+		"last_filter": "menu",
+		"selected_items":
+		[
+			[
+				"menu",
+				"View: Toggle Menu"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 147.0,
+		"history":
+		[
+			"ls",
+			"pwd"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": true,
+		"show_tabs": false,
+		"side_bar_visible": true,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/myke/Dropbox/invent-with-python/Making-Games-With-Python-And-Pygame/memory-puzzle"
+	],
+	"file_history":
+	[
+		"/home/myke/Dropbox/invent-with-python/Making-Games-With-Python-And-Pygame/basic/backgroundsound.py",
+		"/home/myke/Dropbox/invent-with-python/Making-Games-With-Python-And-Pygame/basic/soundefect.py",
+		"/home/myke/Dropbox/invent-with-python/Making-Games-With-Python-And-Pygame/basic/README.md",
+		"/home/myke/Dropbox/invent-with-python/Making-Games-With-Python-And-Pygame/basic/drawing.py",
+		"/home/myke/Dropbox/invent-with-python/Making-Games-With-Python-And-Pygame/basic/blankpygame.py",
+		"/home/myke/Dropbox/invent-with-python/Making-Games-With-Python-And-Pygame/basic/fonts.py",
+		"/home/myke/Dropbox/invent-with-python/Making-Games-With-Python-And-Pygame/basic/catanimation.py",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 71.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 62.css",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 46.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 62a.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 62.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 38.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 41.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 23.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 21.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 26.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 22.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/contato.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula20.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula19.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/aula 11.html",
+		"/home/myke/Dropbox/Udemy-Curso-Web/udemy-curso-web.sublime-project",
+		"/home/myke/Dropbox/git_course/04 ligando repositórios.txt",
+		"/home/myke/Dropbox/Curso-Latex/23 aula/index.html",
+		"/home/myke/Dropbox/Curso-Latex/05 Aula/05 Aula.html",
+		"/home/myke/Dropbox/git_course/Manual.md",
+		"/home/myke/Dropbox/git_course/03 manipulando o git.txt",
+		"/home/myke/Dropbox/git_course/02 iniciando repositório.txt",
+		"/home/myke/Documents/Greetings.sb.bas",
+		"/home/myke/Dropbox/Khan Academy HTML CSS/004 All about rabits.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/elementos-flutuantes.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/galeria.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/links.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/posicionamento.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/formatação-textos.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/modelo-caixa.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/cursodecss.sublime-project",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/index.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/span-div.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/border.html",
+		"/home/myke/Dropbox/Estudo On Line/Curso de Css/fontes-cores.html",
+		"/home/myke/Diagram1.dia",
+		"/home/myke/Diagram1.svg",
+		"/home/myke/Documents/w3school/index.html",
+		"/home/myke/Documents/w3school/imagem-boba.html",
+		"/home/myke/Documents/Diagram1.dia",
+		"/home/myke/Documents/w3school/menu.html",
+		"/home/myke/Untitled Chess Game.pgn",
+		"/home/myke/Documents/w3school/mapa-de-imagem.html",
+		"/home/myke/Documents/w3school/mesa.html",
+		"/home/myke/Documents/pag/index.html",
+		"/home/myke/Documents/pag/hello_word.c",
+		"/home/myke/Dropbox/Semestre 10/Redes de Computadores/VLANS.md",
+		"/home/myke/.local/share/applications/chrome-gbchcmhmhahfdphkhkmpfmihenigjmpp-Default.desktop"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"pr&#195;&#161;ticas",
+			"Matem&#195;&#161;tico",
+			"Se&#195;&#167;&#195;&#163;o",
+			"Sum&#195;&#161;rio"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"práticas",
+			"Matemático",
+			"Seção",
+			"Sumário"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "README.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								430,
+								430
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "memory-puzzle.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3617,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3441,
+								3441
+							]
+						],
+						"settings":
+						{
+							"auto_name": "import",
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 32.0,
+						"translation.y": 1440.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 69.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "memory-puzzle.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 245.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
